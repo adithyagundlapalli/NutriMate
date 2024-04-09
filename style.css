@@ -1,14 +1,49 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
 .container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #191714, #2234ae);
+  padding: 10px;
 }
 
 .nutrimate-container {
   width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 200px auto 20px;
+  padding: 40px 0px 60px;
+  border-radius: 5px;
+  background-color: white;
 }
 
 .heading {
+  display: flex;
+  text-align: center;
+  margin-bottom: 30px;
   font-size: 50px;
+}
+
+.goals {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.meal-type {
+  margin: 20px auto 20px;
+}
+
+.section {
+  display: flex;
+  justify-content: space-between;
+  background-color: grey;
+}
+.title {
+  color: white;
 }
 
 footer {
