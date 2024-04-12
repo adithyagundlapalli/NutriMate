@@ -54,13 +54,38 @@
             </div>
 
             <div class="food-list">
-              <div class="input">
-                <input
-                  type="text"
-                  id="input-lunch"
-                  placeholder="Log Calories"
-                />
-                <button onclick="addTask()">Add</button>
+              <div class="wrapper">
+                <form class="input">
+                  <label for="food">Food:</label>
+                  <input
+                    type="text"
+                    size="25"
+                    id="food"
+                    name="food"
+                    placeholder="food"
+                    required
+                  />
+                  <label for="cal">Calories:</label>
+                  <input
+                    type="text"
+                    size="7"
+                    id="cal"
+                    name="calories"
+                    placeholder="calories"
+                    required
+                  />
+
+                  <label for="pro">Protein:</label>
+                  <input
+                    type="text"
+                    size="7"
+                    id="pro"
+                    name="protein"
+                    placeholder="protein"
+                    required
+                  />
+                  <button type="submit" id="btn">Add</button>
+                </form>
               </div>
               <ul id="list-container">
                 <!-- <li class="delete">food1</li>

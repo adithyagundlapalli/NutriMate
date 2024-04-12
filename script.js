@@ -4,6 +4,8 @@ const value = document.getElementById("value");
 
 function updateCalories() {
   value.innerHTML = calGoal.value + " calories";
+  calGoal.value = "";
+
   saveData();
 }
 
@@ -15,6 +17,7 @@ const value2 = document.getElementById("value2");
 
 function updateProtein() {
   value2.innerHTML = proGoal.value + " grams";
+  proGoal.value = "";
   saveData();
 }
 
@@ -33,23 +36,23 @@ showGoal();
 
 // Lunch Functions
 
-const inputBoxLunch = document.getElementById("input-lunch");
+const inputBoxLunch = document.getElementById("input-food");
 const listContainer = document.getElementById("list-container");
 
-function addTask() {
-  if (inputBoxLunch.value === "") {
-    alert("You must write something!");
-  } else {
-    let li = document.createElement("li");
-    li.innerHTML = inputBoxLunch.value;
-    listContainer.appendChild(li);
-    let span = document.createElement("span");
-    span.innerHTML = "\u00d7";
-    li.appendChild(span);
-  }
-  inputBox.value = "";
-  saveInfo();
-}
+// function addTask() {
+//   if (inputBoxLunch.value === "") {
+//     alert("You must write something!");
+//   } else {
+//     let li = document.createElement("li");
+//     li.innerHTML = inputBoxLunch.value;
+//     listContainer.appendChild(li);
+//     let span = document.createElement("span");
+//     span.innerHTML = "\u00d7";
+//     li.appendChild(span);
+//   }
+//   inputBoxLunch.value = "";
+//   saveInfo();
+// }
 
 listContainer.addEventListener(
   "click",
@@ -61,3 +64,17 @@ listContainer.addEventListener(
   },
   false
 );
+
+const form = document.querySelector(".input");
+const submitBtn = document.getElementById("btn");
+
+function getDataForm(e) {
+  e.preventDefault();
+  const formData = new FormData(form);
+
+  alert(formData.get("food"));
+
+  form.reset();
+}
+
+submitBtn.addEventListener("click", getDataForm);
