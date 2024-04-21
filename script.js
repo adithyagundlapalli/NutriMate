@@ -52,18 +52,48 @@ breakfastButton.addEventListener("click", function (e) {
   ) {
     alert("You must enter all of the information!");
   } else {
+    // Create list item
     let li = document.createElement("li");
-    li.innerHTML = inputBoxBreakfast.value;
-    breakfastListContainer.appendChild(li);
+
+    let foodSpan = document.createElement("span");
+    foodSpan.innerHTML = inputBoxBreakfast.value;
+    li.appendChild(foodSpan);
+
+    // Create span for calories
+    let calSpan = document.createElement("span");
+    calSpan.innerHTML = calBreakfast.value + " calories";
+    li.appendChild(calSpan);
+
+    // Create span for protein
+    let proSpan = document.createElement("span");
+    proSpan.innerHTML = proBreakfast.value + " grams";
+    li.appendChild(proSpan);
+
+    // Create delete button
     let span = document.createElement("span");
+    span.className = "delete-button";
     span.innerHTML = "\u00d7";
     li.appendChild(span);
+
+    // Append list item to the breakfast list container
+    breakfastListContainer.appendChild(li);
     inputBoxBreakfast.value = ""; // Clear input fields
     calBreakfast.value = "";
     proBreakfast.value = "";
     saveInfo();
   }
 });
+
+breakfastListContainer.addEventListener(
+  "click",
+  function (e) {
+    if (e.target.className === "delete-button") {
+      e.target.parentElement.remove();
+      saveInfo();
+    }
+  },
+  false
+);
 
 // Dinner Functions
 const inputBoxDinner = document.getElementById("dfood");
@@ -81,18 +111,48 @@ dinnerButton.addEventListener("click", function (e) {
   ) {
     alert("You must enter all of the information!");
   } else {
+    // Create list item
     let li = document.createElement("li");
-    li.innerHTML = inputBoxDinner.value;
-    dinnerListContainer.appendChild(li);
+
+    let foodSpan = document.createElement("span");
+    foodSpan.innerHTML = inputBoxDinner.value;
+    li.appendChild(foodSpan);
+
+    // Create span for calories
+    let calSpan = document.createElement("span");
+    calSpan.innerHTML = calDinner.value + " calories";
+    li.appendChild(calSpan);
+
+    // Create span for protein
+    let proSpan = document.createElement("span");
+    proSpan.innerHTML = proDinner.value + " grams";
+    li.appendChild(proSpan);
+
+    // Create delete button
     let span = document.createElement("span");
+    span.className = "delete-button";
     span.innerHTML = "\u00d7";
     li.appendChild(span);
+
+    // Append list item to the breakfast list container
+    dinnerListContainer.appendChild(li);
     inputBoxDinner.value = ""; // Clear input fields
     calDinner.value = "";
     proDinner.value = "";
     saveInfo();
   }
 });
+
+dinnerListContainer.addEventListener(
+  "click",
+  function (e) {
+    if (e.target.className === "delete-button") {
+      e.target.parentElement.remove();
+      saveInfo();
+    }
+  },
+  false
+);
 
 // Snacks Functions
 const inputBoxSnacks = document.getElementById("sfood");
@@ -110,18 +170,48 @@ snacksButton.addEventListener("click", function (e) {
   ) {
     alert("You must enter all of the information!");
   } else {
+    // Create list item
     let li = document.createElement("li");
-    li.innerHTML = inputBoxSnacks.value;
-    snacksListContainer.appendChild(li);
+
+    let foodSpan = document.createElement("span");
+    foodSpan.innerHTML = inputBoxSnacks.value;
+    li.appendChild(foodSpan);
+
+    // Create span for calories
+    let calSpan = document.createElement("span");
+    calSpan.innerHTML = calSnacks.value + " calories";
+    li.appendChild(calSpan);
+
+    // Create span for protein
+    let proSpan = document.createElement("span");
+    proSpan.innerHTML = proSnacks.value + " grams";
+    li.appendChild(proSpan);
+
+    // Create delete button
     let span = document.createElement("span");
+    span.className = "delete-button";
     span.innerHTML = "\u00d7";
     li.appendChild(span);
+
+    // Append list item to the breakfast list container
+    snacksListContainer.appendChild(li);
     inputBoxSnacks.value = ""; // Clear input fields
     calSnacks.value = "";
     proSnacks.value = "";
     saveInfo();
   }
 });
+
+snacksListContainer.addEventListener(
+  "click",
+  function (e) {
+    if (e.target.className === "delete-button") {
+      e.target.parentElement.remove();
+      saveInfo();
+    }
+  },
+  false
+);
 
 // Lunch Functions
 const inputBoxLunch = document.getElementById("lfood");
@@ -140,12 +230,31 @@ lunchButton.addEventListener("click", function (e) {
   ) {
     alert("You must enter all of the information!");
   } else {
+    // Create list item
     let li = document.createElement("li");
-    li.innerHTML = inputBoxLunch.value;
-    lunchListContainer.appendChild(li);
+
+    let foodSpan = document.createElement("span");
+    foodSpan.innerHTML = inputBoxLunch.value;
+    li.appendChild(foodSpan);
+
+    // Create span for calories
+    let calSpan = document.createElement("span");
+    calSpan.innerHTML = calLunch.value + " calories";
+    li.appendChild(calSpan);
+
+    // Create span for protein
+    let proSpan = document.createElement("span");
+    proSpan.innerHTML = proLunch.value + " grams";
+    li.appendChild(proSpan);
+
+    // Create delete button
     let span = document.createElement("span");
+    span.className = "delete-button";
     span.innerHTML = "\u00d7";
     li.appendChild(span);
+
+    // Append list item to the breakfast list container
+    lunchListContainer.appendChild(li);
     inputBoxLunch.value = ""; // Clear input fields
     calLunch.value = "";
     proLunch.value = "";
@@ -156,13 +265,15 @@ lunchButton.addEventListener("click", function (e) {
 lunchListContainer.addEventListener(
   "click",
   function (e) {
-    if (e.target.tagName === "SPAN") {
+    if (e.target.className === "delete-button") {
       e.target.parentElement.remove();
       saveInfo();
     }
   },
   false
 );
+
+const counter = document.querySelector(".counter");
 
 function saveInfo() {
   // You can save the information to localStorage or perform any other necessary action here.
