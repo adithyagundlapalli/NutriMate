@@ -35,6 +35,13 @@ function showGoal() {
 showGoal();
 
 // Breakfast Functions
+
+let breakfastCalories = 0;
+let breakfastProtein = 0;
+const breakfastCounter = document.querySelector(
+  ".meal-type.breakfast .counter"
+);
+
 const inputBoxBreakfast = document.getElementById("bfood");
 const calBreakfast = document.getElementById("bcal");
 const proBreakfast = document.getElementById("bpro");
@@ -75,6 +82,11 @@ breakfastButton.addEventListener("click", function (e) {
     span.innerHTML = "\u00d7";
     li.appendChild(span);
 
+    breakfastCalories += parseInt(calBreakfast.value);
+    breakfastProtein += parseInt(proBreakfast.value);
+
+    breakfastCounter.textContent = `${breakfastCalories} cal ${breakfastProtein} pro`;
+
     // Append list item to the breakfast list container
     breakfastListContainer.appendChild(li);
     inputBoxBreakfast.value = ""; // Clear input fields
@@ -88,14 +100,32 @@ breakfastListContainer.addEventListener(
   "click",
   function (e) {
     if (e.target.className === "delete-button") {
-      e.target.parentElement.remove();
+      let listItem = e.target.parentElement;
+
+      let itemCal = parseInt(listItem.children[1].textContent);
+      let itemPro = parseInt(listItem.children[2].textContent);
+
+      breakfastCalories -= parseInt(itemCal);
+      breakfastProtein -= parseInt(itemPro);
+
+      breakfastCounter.textContent = `${breakfastCalories} cal ${breakfastProtein} pro`;
+
+      listItem.remove();
+
       saveInfo();
     }
   },
   false
 );
 
+function addMacros() {}
+
 // Dinner Functions
+
+let dinnerCalories = 0;
+let dinnerProtein = 0;
+const dinnerCounter = document.querySelector(".meal-type.dinner .counter");
+
 const inputBoxDinner = document.getElementById("dfood");
 const calDinner = document.getElementById("dcal");
 const proDinner = document.getElementById("dpro");
@@ -134,6 +164,11 @@ dinnerButton.addEventListener("click", function (e) {
     span.innerHTML = "\u00d7";
     li.appendChild(span);
 
+    dinnerCalories += parseInt(calDinner.value);
+    dinnerProtein += parseInt(proDinner.value);
+
+    dinnerCounter.textContent = `${dinnerCalories} cal ${dinnerProtein} pro`;
+
     // Append list item to the breakfast list container
     dinnerListContainer.appendChild(li);
     inputBoxDinner.value = ""; // Clear input fields
@@ -147,7 +182,18 @@ dinnerListContainer.addEventListener(
   "click",
   function (e) {
     if (e.target.className === "delete-button") {
-      e.target.parentElement.remove();
+      let listItem = e.target.parentElement;
+
+      let itemCalories = parseInt(listItem.children[1].textContent);
+      let itemProtein = parseInt(listItem.children[2].textContent);
+
+      dinnerCalories -= itemCalories;
+      dinnerProtein += itemProtein;
+
+      dinnerCounter.textContent = `${dinnerCalories} cal ${dinnerProtein} pro`;
+
+      listItem.remove();
+
       saveInfo();
     }
   },
@@ -155,6 +201,10 @@ dinnerListContainer.addEventListener(
 );
 
 // Snacks Functions
+let snacksCalories = 0;
+let snacksProtein = 0;
+const snacksCounter = document.querySelector(".meal-type.snack .counter");
+
 const inputBoxSnacks = document.getElementById("sfood");
 const calSnacks = document.getElementById("scal");
 const proSnacks = document.getElementById("spro");
@@ -193,6 +243,11 @@ snacksButton.addEventListener("click", function (e) {
     span.innerHTML = "\u00d7";
     li.appendChild(span);
 
+    snacksCalories += parseInt(calSnacks.value);
+    snacksProtein += parseInt(proSnacks.value);
+
+    snacksCounter.textContent = `${snacksCalories} cal ${snacksProtein} pro`;
+
     // Append list item to the breakfast list container
     snacksListContainer.appendChild(li);
     inputBoxSnacks.value = ""; // Clear input fields
@@ -206,7 +261,18 @@ snacksListContainer.addEventListener(
   "click",
   function (e) {
     if (e.target.className === "delete-button") {
-      e.target.parentElement.remove();
+      let listItem = e.target.parentElement;
+
+      let itemCalories = parseInt(listItem.children[1].textContent);
+      let itemProtein = parseInt(listItem.children[2].textContent);
+
+      snacksCalories -= itemCalories;
+      snacksProtein += itemProtein;
+
+      snacksCounter.textContent = `${snacksCalories} cal ${snacksProtein} pro`;
+
+      listItem.remove();
+
       saveInfo();
     }
   },
@@ -214,6 +280,10 @@ snacksListContainer.addEventListener(
 );
 
 // Lunch Functions
+let lunchCalories = 0;
+let lunchProtein = 0;
+const lunchCounter = document.querySelector(".meal-type.lunch .counter");
+
 const inputBoxLunch = document.getElementById("lfood");
 const calLunch = document.getElementById("lcal");
 const proLunch = document.getElementById("lpro");
@@ -253,6 +323,11 @@ lunchButton.addEventListener("click", function (e) {
     span.innerHTML = "\u00d7";
     li.appendChild(span);
 
+    lunchCalories += parseInt(calLunch.value);
+    lunchProtein += parseInt(proLunch.value);
+
+    lunchCounter.textContent = `${lunchCalories} cal ${lunchProtein} pro`;
+
     // Append list item to the breakfast list container
     lunchListContainer.appendChild(li);
     inputBoxLunch.value = ""; // Clear input fields
@@ -266,31 +341,66 @@ lunchListContainer.addEventListener(
   "click",
   function (e) {
     if (e.target.className === "delete-button") {
-      e.target.parentElement.remove();
+      let listItem = e.target.parentElement;
+
+      let itemCalories = parseInt(listItem.children[1].textContent);
+      let itemProtein = parseInt(listItem.children[2].textContent);
+
+      lunchCalories -= itemCalories;
+      lunchProtein += itemProtein;
+
+      lunchCounter.textContent = `${lunchCalories} cal ${lunchProtein} pro`;
+
+      listItem.remove();
       saveInfo();
     }
   },
   false
 );
 
-const counter = document.querySelector(".counter");
+// Function to update the total calories and protein
+function updateTotals() {
+  let totalCal =
+    breakfastCalories + lunchCalories + dinnerCalories + snacksCalories;
+  let totalPro =
+    breakfastProtein + lunchProtein + dinnerProtein + snacksProtein;
 
+  const calories = document.querySelector(".calorie-total");
+  const protein = document.querySelector(".protein-total");
+
+  calories.textContent = `${totalCal} Calories`;
+  protein.textContent = `${totalPro} Grams`;
+}
+
+// Function to save the updated information to localStorage
 function saveInfo() {
-  // You can save the information to localStorage or perform any other necessary action here.
+  localStorage.setItem("breakfastCalories", breakfastCalories);
+  localStorage.setItem("lunchCalories", lunchCalories);
+  localStorage.setItem("dinnerCalories", dinnerCalories);
+  localStorage.setItem("snacksCalories", snacksCalories);
+
+  localStorage.setItem("breakfastProtein", breakfastProtein);
+  localStorage.setItem("lunchProtein", lunchProtein);
+  localStorage.setItem("dinnerProtein", dinnerProtein);
+  localStorage.setItem("snacksProtein", snacksProtein);
+
+  updateTotals();
 }
 
-// Handle form submission
-form.addEventListener("submit", function (e) {
-  e.preventDefault(); // Prevent the default form submission behavior
-  // You can handle the form submission here or call your existing getDataForm function
-  getDataForm(e);
-});
+// // Function to retrieve saved information from localStorage
+// function loadInfo() {
+//   breakfastCalories = parseInt(localStorage.getItem("breakfastCalories"));
+//   lunchCalories = parseInt(localStorage.getItem("lunchCalories"));
+//   dinnerCalories = parseInt(localStorage.getItem("dinnerCalories"));
+//   snacksCalories = parseInt(localStorage.getItem("snacksCalories"));
 
-function getDataForm(e) {
-  const formData = new FormData(form);
-  // Handle form data
-  // Reset the form after processing
-  form.reset();
-}
+//   breakfastProtein = parseInt(localStorage.getItem("breakfastProtein"));
+//   lunchProtein = parseInt(localStorage.getItem("lunchProtein"));
+//   dinnerProtein = parseInt(localStorage.getItem("dinnerProtein"));
+//   snacksProtein = parseInt(localStorage.getItem("snacksProtein"));
 
-// submitBtn.addEventListener("click", getDataForm);
+//   updateTotals();
+// }
+
+// // Call the loadInfo function when the script loads to initialize the totals
+// loadInfo();
