@@ -19,7 +19,7 @@ Getting Started
 
 Clone the repository to your local machine.
 Copy code
-git clone https://github.com/yourusername/nutrimate.git
+git clone https://github.com/adithyagundlapalli/nutrimate.git
 Open index.html in your preferred web browser to start using NutriMate.
 
 Usage
