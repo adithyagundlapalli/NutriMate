@@ -1,3 +1,5 @@
+///////////////////// CALORIE AND PROTEIN GOAL FUNCTIONS //////////////////////
+
 const calGoal = document.getElementById("input-box");
 const button1 = document.getElementById("btn1");
 const value = document.getElementById("value");
@@ -34,7 +36,7 @@ function showGoal() {
 }
 showGoal();
 
-// Breakfast Functions
+//////////////////////// BREAKFAST TRACKER FUCNTIONS //////////////////////
 
 let breakfastCalories = 0;
 let breakfastProtein = 0;
@@ -50,8 +52,62 @@ const breakfastListContainer = document.querySelector(
 );
 const breakfastButton = document.getElementById("bbtn");
 
+// Function to save breakfast data to localStorage
+function saveBreakfastData() {
+  const breakfastItems = [];
+  const breakfastList = breakfastListContainer.querySelectorAll("li");
+
+  breakfastList.forEach((item) => {
+    let food = item.children[0].textContent;
+    let calories = item.children[1].textContent.split(" ")[0];
+    let protein = item.children[2].textContent.split(" ")[0];
+
+    breakfastItems.push({ food, calories, protein });
+  });
+
+  localStorage.setItem("breakfastData", JSON.stringify(breakfastItems));
+  localStorage.setItem("breakfastCalories", breakfastCalories);
+  localStorage.setItem("breakfastProtein", breakfastProtein);
+}
+
+// Function to load breakfast data from localStorage
+function loadBreakfastData() {
+  const savedBreakfastData = JSON.parse(localStorage.getItem("breakfastData"));
+  const savedCalories = localStorage.getItem("breakfastCalories");
+  const savedProtein = localStorage.getItem("breakfastProtein");
+
+  if (savedBreakfastData) {
+    savedBreakfastData.forEach((item) => {
+      let li = document.createElement("li");
+
+      let foodSpan = document.createElement("span");
+      foodSpan.innerHTML = item.food;
+      li.appendChild(foodSpan);
+
+      let calSpan = document.createElement("span");
+      calSpan.innerHTML = item.calories + " calories";
+      li.appendChild(calSpan);
+
+      let proSpan = document.createElement("span");
+      proSpan.innerHTML = item.protein + " grams";
+      li.appendChild(proSpan);
+
+      let span = document.createElement("span");
+      span.className = "delete-button";
+      span.innerHTML = "\u00d7";
+      li.appendChild(span);
+
+      breakfastListContainer.appendChild(li);
+    });
+
+    breakfastCalories = parseInt(savedCalories);
+    breakfastProtein = parseInt(savedProtein);
+    breakfastCounter.textContent = `${breakfastCalories} cal ${breakfastProtein} pro`;
+  }
+}
+
 breakfastButton.addEventListener("click", function (e) {
-  e.preventDefault(); // Prevent the default form submission behavior
+  e.preventDefault();
   if (
     calBreakfast.value === "" ||
     proBreakfast.value === "" ||
@@ -59,24 +115,20 @@ breakfastButton.addEventListener("click", function (e) {
   ) {
     alert("You must enter all of the information!");
   } else {
-    // Create list item
     let li = document.createElement("li");
 
     let foodSpan = document.createElement("span");
     foodSpan.innerHTML = inputBoxBreakfast.value;
     li.appendChild(foodSpan);
 
-    // Create span for calories
     let calSpan = document.createElement("span");
     calSpan.innerHTML = calBreakfast.value + " calories";
     li.appendChild(calSpan);
 
-    // Create span for protein
     let proSpan = document.createElement("span");
     proSpan.innerHTML = proBreakfast.value + " grams";
     li.appendChild(proSpan);
 
-    // Create delete button
     let span = document.createElement("span");
     span.className = "delete-button";
     span.innerHTML = "\u00d7";
@@ -87,15 +139,16 @@ breakfastButton.addEventListener("click", function (e) {
 
     breakfastCounter.textContent = `${breakfastCalories} cal ${breakfastProtein} pro`;
 
-    // Append list item to the breakfast list container
     breakfastListContainer.appendChild(li);
-    inputBoxBreakfast.value = ""; // Clear input fields
+    inputBoxBreakfast.value = "";
     calBreakfast.value = "";
     proBreakfast.value = "";
-    saveInfo();
+
+    saveBreakfastData(); // Save data to localStorage
   }
 });
 
+// Event listener to remove items
 breakfastListContainer.addEventListener(
   "click",
   function (e) {
@@ -105,22 +158,24 @@ breakfastListContainer.addEventListener(
       let itemCal = parseInt(listItem.children[1].textContent);
       let itemPro = parseInt(listItem.children[2].textContent);
 
-      breakfastCalories -= parseInt(itemCal);
-      breakfastProtein -= parseInt(itemPro);
+      breakfastCalories -= itemCal;
+      breakfastProtein -= itemPro;
 
       breakfastCounter.textContent = `${breakfastCalories} cal ${breakfastProtein} pro`;
 
       listItem.remove();
-
-      saveInfo();
+      saveBreakfastData(); // Update localStorage after removal
     }
   },
   false
 );
 
-function addMacros() {}
+// Load breakfast data on page load
+window.addEventListener("load", loadBreakfastData);
 
-// Dinner Functions
+//////////////////////// DINNER TRACKER FUCNTIONS //////////////////////
+
+function addMacros() {}
 
 let dinnerCalories = 0;
 let dinnerProtein = 0;
@@ -133,7 +188,7 @@ const dinnerListContainer = document.querySelector(".meal-type.dinner ul");
 const dinnerButton = document.getElementById("dbtn");
 
 dinnerButton.addEventListener("click", function (e) {
-  e.preventDefault(); // Prevent the default form submission behavior
+  e.preventDefault();
   if (
     calDinner.value === "" ||
     proDinner.value === "" ||
@@ -141,24 +196,20 @@ dinnerButton.addEventListener("click", function (e) {
   ) {
     alert("You must enter all of the information!");
   } else {
-    // Create list item
     let li = document.createElement("li");
 
     let foodSpan = document.createElement("span");
     foodSpan.innerHTML = inputBoxDinner.value;
     li.appendChild(foodSpan);
 
-    // Create span for calories
     let calSpan = document.createElement("span");
     calSpan.innerHTML = calDinner.value + " calories";
     li.appendChild(calSpan);
 
-    // Create span for protein
     let proSpan = document.createElement("span");
     proSpan.innerHTML = proDinner.value + " grams";
     li.appendChild(proSpan);
 
-    // Create delete button
     let span = document.createElement("span");
     span.className = "delete-button";
     span.innerHTML = "\u00d7";
@@ -169,9 +220,8 @@ dinnerButton.addEventListener("click", function (e) {
 
     dinnerCounter.textContent = `${dinnerCalories} cal ${dinnerProtein} pro`;
 
-    // Append list item to the breakfast list container
     dinnerListContainer.appendChild(li);
-    inputBoxDinner.value = ""; // Clear input fields
+    inputBoxDinner.value = "";
     calDinner.value = "";
     proDinner.value = "";
     saveInfo();
@@ -193,14 +243,13 @@ dinnerListContainer.addEventListener(
       dinnerCounter.textContent = `${dinnerCalories} cal ${dinnerProtein} pro`;
 
       listItem.remove();
-
-      saveInfo();
     }
   },
   false
 );
 
-// Snacks Functions
+//////////////////////// SNACK TRACKER FUCNTIONS //////////////////////
+
 let snacksCalories = 0;
 let snacksProtein = 0;
 const snacksCounter = document.querySelector(".meal-type.snack .counter");
@@ -212,7 +261,7 @@ const snacksListContainer = document.querySelector(".meal-type.snack ul");
 const snacksButton = document.getElementById("sbtn");
 
 snacksButton.addEventListener("click", function (e) {
-  e.preventDefault(); // Prevent the default form submission behavior
+  e.preventDefault();
   if (
     calSnacks.value === "" ||
     proSnacks.value === "" ||
@@ -220,24 +269,20 @@ snacksButton.addEventListener("click", function (e) {
   ) {
     alert("You must enter all of the information!");
   } else {
-    // Create list item
     let li = document.createElement("li");
 
     let foodSpan = document.createElement("span");
     foodSpan.innerHTML = inputBoxSnacks.value;
     li.appendChild(foodSpan);
 
-    // Create span for calories
     let calSpan = document.createElement("span");
     calSpan.innerHTML = calSnacks.value + " calories";
     li.appendChild(calSpan);
 
-    // Create span for protein
     let proSpan = document.createElement("span");
     proSpan.innerHTML = proSnacks.value + " grams";
     li.appendChild(proSpan);
 
-    // Create delete button
     let span = document.createElement("span");
     span.className = "delete-button";
     span.innerHTML = "\u00d7";
@@ -248,9 +293,8 @@ snacksButton.addEventListener("click", function (e) {
 
     snacksCounter.textContent = `${snacksCalories} cal ${snacksProtein} pro`;
 
-    // Append list item to the breakfast list container
     snacksListContainer.appendChild(li);
-    inputBoxSnacks.value = ""; // Clear input fields
+    inputBoxSnacks.value = "";
     calSnacks.value = "";
     proSnacks.value = "";
     saveInfo();
@@ -272,14 +316,13 @@ snacksListContainer.addEventListener(
       snacksCounter.textContent = `${snacksCalories} cal ${snacksProtein} pro`;
 
       listItem.remove();
-
-      saveInfo();
     }
   },
   false
 );
 
-// Lunch Functions
+//////////////////////// LUNCH TRACKER FUCNTIONS //////////////////////
+
 let lunchCalories = 0;
 let lunchProtein = 0;
 const lunchCounter = document.querySelector(".meal-type.lunch .counter");
@@ -292,7 +335,7 @@ const lunchButton = document.getElementById("lbtn");
 const form = document.querySelector(".input");
 
 lunchButton.addEventListener("click", function (e) {
-  e.preventDefault(); // Prevent the default form submission behavior
+  e.preventDefault();
   if (
     calLunch.value === "" ||
     proLunch.value === "" ||
@@ -300,24 +343,20 @@ lunchButton.addEventListener("click", function (e) {
   ) {
     alert("You must enter all of the information!");
   } else {
-    // Create list item
     let li = document.createElement("li");
 
     let foodSpan = document.createElement("span");
     foodSpan.innerHTML = inputBoxLunch.value;
     li.appendChild(foodSpan);
 
-    // Create span for calories
     let calSpan = document.createElement("span");
     calSpan.innerHTML = calLunch.value + " calories";
     li.appendChild(calSpan);
 
-    // Create span for protein
     let proSpan = document.createElement("span");
     proSpan.innerHTML = proLunch.value + " grams";
     li.appendChild(proSpan);
 
-    // Create delete button
     let span = document.createElement("span");
     span.className = "delete-button";
     span.innerHTML = "\u00d7";
@@ -328,9 +367,8 @@ lunchButton.addEventListener("click", function (e) {
 
     lunchCounter.textContent = `${lunchCalories} cal ${lunchProtein} pro`;
 
-    // Append list item to the breakfast list container
     lunchListContainer.appendChild(li);
-    inputBoxLunch.value = ""; // Clear input fields
+    inputBoxLunch.value = "";
     calLunch.value = "";
     proLunch.value = "";
     saveInfo();
@@ -352,13 +390,13 @@ lunchListContainer.addEventListener(
       lunchCounter.textContent = `${lunchCalories} cal ${lunchProtein} pro`;
 
       listItem.remove();
-      saveInfo();
     }
   },
   false
 );
 
-// Function to update the total calories and protein
+//////////////////////// TOTAL MACRO COUNTER FUNCTIONS //////////////////////
+
 function updateTotals() {
   let totalCal =
     breakfastCalories + lunchCalories + dinnerCalories + snacksCalories;
@@ -372,7 +410,6 @@ function updateTotals() {
   protein.textContent = `${totalPro} Grams`;
 }
 
-// Function to save the updated information to localStorage
 function saveInfo() {
   localStorage.setItem("breakfastCalories", breakfastCalories);
   localStorage.setItem("lunchCalories", lunchCalories);
@@ -386,21 +423,3 @@ function saveInfo() {
 
   updateTotals();
 }
-
-// // Function to retrieve saved information from localStorage
-// function loadInfo() {
-//   breakfastCalories = parseInt(localStorage.getItem("breakfastCalories"));
-//   lunchCalories = parseInt(localStorage.getItem("lunchCalories"));
-//   dinnerCalories = parseInt(localStorage.getItem("dinnerCalories"));
-//   snacksCalories = parseInt(localStorage.getItem("snacksCalories"));
-
-//   breakfastProtein = parseInt(localStorage.getItem("breakfastProtein"));
-//   lunchProtein = parseInt(localStorage.getItem("lunchProtein"));
-//   dinnerProtein = parseInt(localStorage.getItem("dinnerProtein"));
-//   snacksProtein = parseInt(localStorage.getItem("snacksProtein"));
-
-//   updateTotals();
-// }
-
-// // Call the loadInfo function when the script loads to initialize the totals
-// loadInfo();
